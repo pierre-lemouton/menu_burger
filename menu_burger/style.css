@@ -1,0 +1,132 @@
+/*=== Attention ===*/
+/*
+N'apparaît que pour les tablettes ou écran plus petits (768px ou moins).
+Il faut savoir que :
+Z-index = 1 sur le masque opacifiant.
+Z-index = 2 sur le burger et item_box.
+*/
+
+/*=== Général ===*/
+body {
+  padding: 0;
+  margin: 0;
+  background-color: rgb(255, 235, 209);
+}
+
+/*=== Propriété du header ===*/
+header {
+  /* z-index: 2; NE FONCTIONNE PAS..., donc j'ai mis un top = "taille du header" sur .overley.active*/
+  height: 100px;
+  background-color: white;
+}
+
+/* POUR LES TABLETTES OU ECRAN PLUS PETITS*/
+@media (max-width: 768px) {
+  /*=== Boutton ===*/
+  .burger {
+    z-index: 2;
+    width: 36px;
+    height: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 5px;
+  }
+
+  .burger span {
+    width: 100%;
+    height: 4px;
+    background-color: black;
+    border-radius: 50px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.1s ease-in-out;
+  }
+
+  .burger span::before,
+  .burger span::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background-color: black;
+    border-radius: 50px;
+    transition: transform 0.1s ease-in-out;
+  }
+
+  .burger span::before {
+    transform: translateY(-10px);
+  }
+  .burger span::after {
+    transform: translateY(10px);
+  }
+
+  .burger.active span {
+    background-color: transparent;
+  }
+
+  .burger.active span::before {
+    transform: translateY(0px) rotateZ(45deg);
+  }
+
+  .burger.active span::after {
+    transform: translateY(0px) rotateZ(-45deg);
+  }
+
+  /*=== Transition nav ===*/
+  .nav {
+    width: 70%;
+    height: 400px;
+    top: 100px; /* choisir la taille du header, et mettre un z-index = 2 à ce header*/
+    display: flex;
+    flex-direction: column;
+    margin-left: -101%; /* nav est hors de l'écran*/
+    transition: 0.3s ease-in-out;
+  }
+
+  .nav.active {
+    margin-left: 0; /*nav entre dans l'écran*/
+    transition: 0.3s ease-in-out;
+  }
+
+  /*=== Eléments nav ===*/
+  .item_box {
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    /* border: blue solid 1px; */
+    background-color: white;
+  }
+
+  .item_box a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: red;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .item_box:nth-child(5) {
+    border-bottom-right-radius: 10px; /* bordure en bas à droite du nav*/
+  }
+
+  /*=== Masque quand nav est actif ===*/
+  .overlay {
+    z-index: 1;
+    position: fixed;
+    top: 100px; /* choisir taille du header, car quand je mets z-index = 2 sur le header ça ne marche pas...*/
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .overlay.active {
+    transition: 0.3s;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
